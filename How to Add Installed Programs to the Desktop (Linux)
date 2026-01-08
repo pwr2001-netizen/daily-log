@@ -1,0 +1,131 @@
+# 🖥️ How to Add Installed Programs to the Desktop (Linux)
+### Debian / Ubuntu / XFCE Guide
+
+This guide explains **how to place installed applications on the Linux desktop**  
+by creating desktop shortcuts using `.desktop` files.
+
+---
+
+## 🔑 Key Concept (Important)
+Linux desktop icons are **`.desktop` launcher files**, not the actual executable.
+
+Most application launchers are stored in:
+/usr/share/applications/
+
+yaml
+Copy code
+
+---
+
+## 1️⃣ Step 1: Check Your Desktop Folder
+
+In most systems, the desktop directory is one of the following:
+
+```bash
+~/Desktop
+or (Korean locale):
+
+bash
+Copy code
+~/바탕화면
+To confirm:
+
+bash
+Copy code
+ls ~/
+2️⃣ Step 2: Find the Application Launcher
+List available application launchers:
+
+bash
+Copy code
+ls /usr/share/applications
+Search for a specific app (example: LibreOffice):
+
+bash
+Copy code
+ls /usr/share/applications | grep libreoffice
+Example: VLC
+
+bash
+Copy code
+ls /usr/share/applications | grep vlc
+3️⃣ Step 3: Copy the .desktop File to the Desktop
+Example: LibreOffice Writer
+
+bash
+Copy code
+cp /usr/share/applications/libreoffice-writer.desktop ~/Desktop/
+If your desktop folder is localized:
+
+bash
+Copy code
+cp /usr/share/applications/libreoffice-writer.desktop ~/바탕화면/
+4️⃣ Step 4: Grant Execute Permission (Required)
+bash
+Copy code
+chmod +x ~/Desktop/libreoffice-writer.desktop
+5️⃣ Step 5: Allow Launching in XFCE
+Right-click the desktop icon
+
+Select “Allow Launching” or “Trust and Launch”
+
+✅ The application can now be launched by double-clicking.
+
+6️⃣ Copy Multiple Applications at Once
+bash
+Copy code
+cp /usr/share/applications/{vlc.desktop,gimp.desktop,org.kde.okular.desktop} ~/Desktop/
+chmod +x ~/Desktop/*.desktop
+7️⃣ GUI Method (Optional)
+Open the Applications Menu
+
+Find the program
+
+Drag it onto the desktop
+
+⚠️ This may not work in all XFCE versions.
+
+8️⃣ If the Application Is Not Found
+▶ Search for launcher files manually
+bash
+Copy code
+find /usr/share/applications -iname "*chrome*"
+▶ For Snap-installed applications
+Launcher files are located at:
+
+swift
+Copy code
+/var/lib/snapd/desktop/applications/
+Example:
+
+bash
+Copy code
+cp /var/lib/snapd/desktop/applications/chromium_chromium.desktop ~/Desktop/
+chmod +x ~/Desktop/chromium_chromium.desktop
+9️⃣ Rename Desktop Icons (Optional)
+bash
+Copy code
+mv ~/Desktop/libreoffice-writer.desktop ~/Desktop/Writer.desktop
+📌 Important Notes
+Deleting a .desktop file does NOT uninstall the program
+
+If an icon does not open:
+
+Check execute permission
+
+Confirm “Allow Launching” is enabled
+
+Works on both X11 and Wayland
+
+🎯 Recommended Desktop Shortcuts
+bash
+Copy code
+cp /usr/share/applications/{vlc.desktop,gimp.desktop,libreoffice-writer.desktop,google-chrome.desktop} ~/Desktop/
+chmod +x ~/Desktop/*.desktop
+📎 This README is ideal for:
+
+New Linux users
+
+Fresh system setups
+
+XFCE lightweight desktop environments
