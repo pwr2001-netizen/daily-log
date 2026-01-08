@@ -1,0 +1,114 @@
+# 🐧 Linux Essential Programs Setup Guide
+### (Debian / Ubuntu / XFCE)
+
+This document lists **essential programs for a practical Linux desktop setup**,  
+covering office work, development, multimedia, and system management.
+
+---
+
+## 📌 Base Environment
+- OS: Debian / Ubuntu based
+- Desktop: XFCE / GNOME / KDE
+- Use cases: Daily work, development, multimedia, automation
+
+---
+
+## 1️⃣ Core Essential Programs
+
+### ▶ LibreOffice (Office Suite)
+```bash
+sudo apt install libreoffice
+▶ Google Chrome (Best Web Compatibility)
+Required for banking sites, government portals, and developer tools.
+
+bash
+Copy code
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo apt install ./google-chrome-stable_current_amd64.deb
+▶ VLC Media Player (Video & Audio)
+bash
+Copy code
+sudo apt install vlc
+2️⃣ Documents, PDF, and Fonts
+▶ PDF Viewer (Okular)
+bash
+Copy code
+sudo apt install okular
+▶ Multilingual & Korean Fonts (Prevent text issues)
+bash
+Copy code
+sudo apt install fonts-noto fonts-noto-cjk fonts-nanum
+3️⃣ Development Essentials
+▶ Git
+bash
+Copy code
+sudo apt install git
+▶ Build Tools
+bash
+Copy code
+sudo apt install build-essential
+▶ Network Utilities
+bash
+Copy code
+sudo apt install curl wget
+▶ Python Development Environment
+bash
+Copy code
+sudo apt install python3 python3-pip python3-venv
+4️⃣ Video & Audio Production
+▶ FFmpeg (Core multimedia tool)
+bash
+Copy code
+sudo apt install ffmpeg
+▶ Audacity (Audio Editing)
+bash
+Copy code
+sudo apt install audacity
+5️⃣ Image Editing
+▶ GIMP (Photoshop Alternative)
+bash
+Copy code
+sudo apt install gimp
+6️⃣ System Monitoring & Utilities
+▶ System Monitor
+bash
+Copy code
+sudo apt install htop
+▶ GUI Package Manager
+bash
+Copy code
+sudo apt install synaptic
+🚀 One-Command Full Installation
+bash
+Copy code
+sudo apt update
+sudo apt install \
+libreoffice vlc gimp okular \
+fonts-noto fonts-noto-cjk fonts-nanum \
+git curl wget build-essential \
+python3 python3-pip python3-venv \
+ffmpeg audacity \
+htop synaptic
+📎 Notes
+All listed software is free, open-source, and stable
+
+Optimized for lightweight desktop environments like XFCE
+
+Suitable for development, media production, and office work
+
+✅ Recommended Installation Order
+Core essentials
+
+Fonts & document tools
+
+Development tools
+
+Multimedia tools
+
+📌 This README is designed for:
+
+Fresh Linux installations
+
+System re-setup after backup
+
+Desktop + personal workstation environments
