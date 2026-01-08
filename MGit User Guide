@@ -1,0 +1,190 @@
+📱 MGit User Guide
+### Open-Source Git Client for Android
+
+This document explains **how to use MGit**, an open-source Git client for Android,  
+for basic and practical Git workflows such as cloning, committing, and pushing.
+
+---
+
+## 📌 What is MGit?
+MGit is an **open-source Git client for Android**, designed to handle  
+basic Git operations without a desktop computer.
+
+Best suited for:
+- README.md updates
+- Documentation edits
+- Simple commits & pushes
+- Daily logs and configuration files
+
+---
+
+## 📥 Installation
+
+### Option 1: F-Droid (Recommended)
+- Install **F-Droid**
+- Search for **MGit**
+- Install
+
+### Option 2: Google Play
+- Search **MGit**
+- Install
+
+---
+
+## 🔐 Authentication Setup
+
+### HTTPS (Beginner-friendly)
+- Use GitHub username + **Personal Access Token (PAT)**
+- Password login is NOT supported by GitHub
+
+### SSH (Advanced)
+- Supported, but setup is more complex
+- Recommended only for experienced users
+
+---
+
+## 1️⃣ Clone a Repository
+
+1. Open **MGit**
+2. Tap **➕ (Add Repository)**
+3. Choose **Clone Repository**
+4. Enter repository URL  
+   Example:
+https://github.com/USERNAME/REPOSITORY.git
+
+yaml
+Copy code
+5. Select local storage folder
+6. Tap **Clone**
+
+✅ Repository is now available locally.
+
+---
+
+## 2️⃣ Check Repository Status
+
+1. Open the repository in MGit
+2. View:
+- Modified files
+- Untracked files
+- Current branch
+
+MGit provides a **visual status list** similar to `git status`.
+
+---
+
+## 3️⃣ Edit Files
+
+MGit does NOT include a built-in text editor.
+
+### Recommended editors:
+- **Markor** (Markdown)
+- **QuickEdit**
+- **Spck Editor**
+
+📌 Files must be edited using an external editor, then returned to MGit.
+
+---
+
+## 4️⃣ Stage Files
+
+1. Open repository
+2. Select modified files
+3. Tap **Stage / Add**
+4. Confirm staging
+
+Equivalent to:
+```bash
+git add <file>
+5️⃣ Commit Changes
+After staging, tap Commit
+
+Enter a clear commit message
+Example:
+
+sql
+Copy code
+Update README with Android Git notes
+Confirm commit
+
+Equivalent to:
+
+bash
+Copy code
+git commit -m "message"
+6️⃣ Push to Remote
+Tap Push
+
+Authenticate (PAT or SSH)
+
+Wait for completion
+
+Equivalent to:
+
+bash
+Copy code
+git push
+7️⃣ Pull Latest Changes
+Open repository
+
+Tap Pull
+
+Resolve conflicts if prompted
+
+Equivalent to:
+
+bash
+Copy code
+git pull
+⚠️ Complex conflicts are difficult on mobile.
+
+8️⃣ Branch Operations (Basic)
+Supported:
+
+View branches
+
+Checkout branches
+
+Limited support:
+
+Creating complex branch workflows
+
+Rebasing
+
+⚠️ Limitations of MGit
+No built-in editor
+
+Limited merge conflict resolution
+
+Not suitable for large codebases
+
+No CI / build execution
+
+✅ Best Practices for MGit
+Use for documents & configs only
+
+Keep commits small
+
+Avoid rebasing on mobile
+
+Sync frequently to avoid conflicts
+
+🎯 Recommended Use Cases
+Task	Suitability
+README.md edits	✅ Excellent
+Documentation	✅ Excellent
+Daily logs	✅ Good
+Large code changes	❌ Not recommended
+Complex merges	❌ Not recommended
+
+🧠 Key Takeaway
+MGit is a mobile Git companion, not a full desktop replacement.
+Use it for quick, safe, and lightweight Git tasks.
+
+📎 This guide is ideal for:
+
+Mobile documentation workflows
+
+On-site logging and notes
+
+Emergency Git fixes
