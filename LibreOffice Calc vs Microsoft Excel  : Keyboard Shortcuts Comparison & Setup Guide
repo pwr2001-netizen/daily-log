@@ -1,0 +1,179 @@
+# ⌨️ LibreOffice Calc vs Microsoft Excel
+## Keyboard Shortcuts Comparison & Setup Guide
+
+This document compares **keyboard shortcuts between Microsoft Excel and LibreOffice Calc**  
+and explains **how to configure LibreOffice so Excel users feel familiar**.
+
+⚠️ Important:  
+**Keyboard shortcut settings must be applied separately for each LibreOffice application**
+(Writer, Calc, Impress).  
+They do NOT automatically apply to all programs.
+
+---
+
+## 📌 Scope
+- Microsoft Excel (Windows)
+- LibreOffice Calc (Windows / Linux)
+- LibreOffice Keyboard Preset: **Microsoft Office**
+
+---
+
+## 🔧 Mandatory Setup (Very Important)
+
+LibreOffice does NOT use a global shortcut profile.
+
+You must configure shortcuts **individually** for:
+- LibreOffice Writer (Word equivalent)
+- LibreOffice Calc (Excel equivalent)
+- LibreOffice Impress (PowerPoint equivalent)
+
+Failing to do so will result in **inconsistent shortcut behavior**.
+
+---
+
+## 1️⃣ How to Enable Microsoft Office Shortcut Preset (Step-by-Step)
+
+### ▶ For LibreOffice Calc (Excel equivalent)
+
+1. Open **LibreOffice Calc**
+2. Go to:
+Tools → Customize → Keyboard
+
+yaml
+Copy code
+3. In the **Keyboard** tab:
+- Locate **Keyboard / Shortcut Keys Profile**
+- Select:
+  ```
+  Microsoft Office
+  ```
+4. Click **OK**
+5. Close LibreOffice Calc
+6. Reopen LibreOffice Calc to ensure the preset is applied
+
+✅ Calc now behaves much closer to Excel.
+
+---
+
+### ▶ Repeat the SAME steps for other programs
+
+⚠️ You MUST repeat the same steps separately in:
+
+- LibreOffice Writer → for Word-like behavior
+- LibreOffice Impress → for PowerPoint-like behavior
+
+📌 Each application stores its own shortcut configuration.
+
+---
+
+## 2️⃣ Common & Identical Shortcuts (No Adjustment Needed)
+
+| Action | Excel | LibreOffice Calc | Status |
+|-----|------|------------------|-------|
+| Copy | Ctrl + C | Ctrl + C | ✅ Same |
+| Paste | Ctrl + V | Ctrl + V | ✅ Same |
+| Cut | Ctrl + X | Ctrl + X | ✅ Same |
+| Save | Ctrl + S | Ctrl + S | ✅ Same |
+| Undo | Ctrl + Z | Ctrl + Z | ✅ Same |
+| Redo | Ctrl + Y | Ctrl + Y | ✅ Same |
+| Select All | Ctrl + A | Ctrl + A | ✅ Same |
+| Find | Ctrl + F | Ctrl + F | ✅ Same |
+| Replace | Ctrl + H | Ctrl + H | ✅ Same |
+| Print | Ctrl + P | Ctrl + P | ✅ Same |
+
+---
+
+## 3️⃣ Cell Navigation & Selection
+
+| Action | Excel | LibreOffice Calc | Notes |
+|-----|------|------------------|------|
+| Edit cell | F2 | F2 | Identical |
+| Move to data edge | Ctrl + Arrow | Ctrl + Arrow | Identical |
+| Select to data edge | Ctrl + Shift + Arrow | Ctrl + Shift + Arrow | Identical |
+| Move to first cell | Ctrl + Home | Ctrl + Home | Identical |
+| Move to last cell | Ctrl + End | Ctrl + End | Slight behavior difference |
+
+---
+
+## 4️⃣ Data Entry & Formatting
+
+| Action | Excel | LibreOffice Calc | Status |
+|-----|------|------------------|-------|
+| Bold | Ctrl + B | Ctrl + B | Same |
+| Italic | Ctrl + I | Ctrl + I | Same |
+| Underline | Ctrl + U | Ctrl + U | Same |
+| Format Cells | Ctrl + 1 | Ctrl + 1 | Same |
+| Line break in cell | Alt + Enter | Alt + Enter | Same |
+
+---
+
+## 5️⃣ Excel Shortcuts That Differ or Are Missing
+
+| Excel Shortcut | Purpose | LibreOffice Calc | Notes |
+|---------------|--------|------------------|------|
+| Ctrl + ; | Insert date | Different | Manual mapping recommended |
+| Ctrl + Shift + ; | Insert time | Different | Manual mapping recommended |
+| Alt + H | Ribbon Home | ❌ Not supported | Ribbon-only |
+| Alt + A | Ribbon Data | ❌ Not supported | Ribbon-only |
+| Alt + = | AutoSum | Partial | Toolbar/menu required |
+
+---
+
+## 6️⃣ Manual Shortcut Customization (Recommended)
+
+You can manually recreate Excel habits.
+
+### ▶ Steps
+
+1. Open **LibreOffice Calc**
+2. Go to:
+Tools → Customize → Keyboard
+
+yaml
+Copy code
+3. Select a key combination (example: `Ctrl + ;`)
+4. Choose:
+- Category: **Insert**
+- Function: **Insert Date**
+5. Click **Modify**
+6. Click **OK**
+
+📌 Repeat per application if needed.
+
+---
+
+## 7️⃣ What Cannot Be Replicated
+
+These Excel features **cannot be reproduced** in LibreOffice:
+
+- Ribbon-based **Alt key navigation**
+- Excel VBA-specific shortcuts
+- Some macro-only workflows
+
+Reason:
+- Excel uses a **Ribbon UI**
+- LibreOffice uses a **classic menu-based UI**
+
+---
+
+## 🎯 Best Practice for Excel Users
+
+✔ Enable **Microsoft Office shortcut preset**  
+✔ Apply the preset **separately in Writer, Calc, Impress**  
+✔ Manually remap 2–3 critical Excel shortcuts  
+✔ Accept that Ribbon shortcuts do not exist  
+
+---
+
+## 🧠 Key Takeaway
+
+> LibreOffice can feel **90% identical to Excel**  
+> **only if shortcuts are configured per application**.  
+> The remaining differences are structural, not configurable.
+
+---
+
+📎 Recommended for:
+- Excel users migrating to LibreOffice
+- Linux desktop users
+- Office compatibility training
