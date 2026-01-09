@@ -1,0 +1,47 @@
+# Debian XFCE – IBus Input Method Conflict (Technical Record)
+
+This document records a **real input method conflict issue** encountered on  
+**Debian with the XFCE desktop environment**, involving **IBus**.
+
+The issue was reproducible, persistent, and resolved only after **complete removal of IBus**.
+
+---
+
+## System Environment
+
+- OS: Debian (stable)
+- Desktop Environment: XFCE (X11 session)
+- Input Method Framework: IBus (default Debian package)
+- Keyboard: Korean (Hangul) physical keyboard
+
+---
+
+## Problem Summary
+
+On Debian XFCE, **IBus caused a persistent conflict with keyboard input handling**, resulting in:
+
+- ❌ Hangul (한/영) key not working
+- ❌ Hangul key ignored entirely by IBus
+- ✅ Only `Shift + Space` toggled Korean/English
+- ❌ No GUI option to remap Hangul key
+- ❌ IBus restart failures
+- ❌ Missing configuration options in `ibus-setup`
+
+This behavior was **not user misconfiguration**, but a structural issue.
+
+---
+
+## Observed Symptoms
+
+### 1. Hangul Key Ignored
+- Pressing the physical **Hangul key** had no effect
+- Key events were not recognized by IBus
+
+### 2. Limited Input Toggle
+- Only `Shift + Space` worked for language switching
+- This behavior is hardcoded fallback behavior in IBus
+
+### 3. Missing GUI Configuration
+Running:
+```bash
+ibus-setup
