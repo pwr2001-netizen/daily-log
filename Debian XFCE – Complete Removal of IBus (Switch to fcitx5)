@@ -1,0 +1,95 @@
+# Debian XFCE – Complete Removal of IBus (Switch to fcitx5)
+
+This document describes how to **completely remove IBus** from a  
+**Debian + XFCE** system and switch to a **single, stable input method: fcitx5**.
+
+> ⚠️ On XFCE, running **IBus and fcitx together causes input conflicts**.  
+> For stability, **only one input method should be used**.
+
+---
+
+## 1. Stop Running IBus Processes
+
+```bash
+ibus exit || true
+pkill ibus || true
+2. Completely Remove IBus Packages (Purge)
+bash
+코드 복사
+sudo apt purge ibus ibus-hangul ibus-gtk ibus-gtk3
+Remove remaining dependencies:
+
+bash
+코드 복사
+sudo apt autoremove --purge
+3. Delete User Configuration and Cache (Important)
+bash
+코드 복사
+rm -rf ~/.config/ibus
+rm -rf ~/.cache/ibus
+rm -rf ~/.local/share/ibus
+4. Reset Input Method Environment Configuration
+bash
+코드 복사
+rm -f ~/.xinputrc
+5. Clean System Input Method Alternatives (Optional)
+bash
+코드 복사
+sudo update-alternatives --remove-all xinput-all_ALL || true
+⚠️ Errors can be safely ignored if no alternatives are configured.
+
+6. Verify IBus Is Fully Removed
+Check if the command still exists:
+
+bash
+코드 복사
+which ibus
+Expected output:
+
+text
+코드 복사
+command not found
+Check running processes:
+
+bash
+코드 복사
+ps aux | grep ibus
+→ No running ibus processes should appear.
+
+7. Recommended Replacement: fcitx5
+After removing IBus, fcitx5 is strongly recommended for XFCE.
+
+bash
+코드 복사
+sudo apt install fcitx5 fcitx5-hangul fcitx5-config-qt fcitx5-frontend-gtk3
+im-config -n fcitx5
+⚠️ Log out and log back in after running the above command.
+
+8. Verify Environment Variables (fcitx5)
+bash
+코드 복사
+echo $GTK_IM_MODULE
+echo $QT_IM_MODULE
+echo $XMODIFIERS
+Expected output:
+
+text
+코드 복사
+fcitx
+fcitx
+@im=fcitx
+Summary
+✔ IBus fully removed
+
+✔ Input method conflicts eliminated
+
+✔ Single input system (fcitx5) configured
+
+✔ Stable Korean/English input on Debian + XFCE
+
+Notes
+IBus is primarily optimized for GNOME
+
+fcitx5 works more reliably on XFCE
+
+Running multiple input frameworks simultaneously is not recommended
