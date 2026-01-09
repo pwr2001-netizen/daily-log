@@ -1,0 +1,150 @@
+# Debian + XFCE Performance Evaluation Report  
+*(Chrome, fcitx5, and Desktop Efficiency)*
+
+## 1. System Overview
+
+- Operating System: Debian (stable)
+- Desktop Environment: XFCE (X11)
+- Input Method Framework: fcitx5
+- Memory: ~8 GB RAM
+- Browser: Google Chrome
+- State: Normal desktop usage (browser + terminal + task manager)
+
+This report evaluates **real-world system performance** under a typical workload.
+
+---
+
+## 2. Overall System Performance
+
+### CPU Usage
+- Average CPU usage: **~5%**
+- Number of running processes: ~179
+
+**Interpretation**
+- CPU load remains very low even with:
+  - Chrome running
+  - Multiple renderer processes
+  - Desktop utilities active
+- Indicates excellent idle and light-work performance
+
+✅ CPU usage below 10% under these conditions is considered **highly efficient**
+
+---
+
+### Memory Usage
+- Total RAM: ~7.4 GiB
+- Used memory: **~1.5 GiB (20%)**
+- Swap usage: **0%**
+
+**Interpretation**
+- XFCE desktop + Chrome + fcitx5 together use only ~1.5 GB
+- No swap usage means:
+  - Memory pressure is extremely low
+  - System responsiveness is preserved
+
+✅ This is a strong indicator of a lightweight desktop environment
+
+---
+
+## 3. Google Chrome Resource Usage
+
+Chrome runs with a **multi-process architecture**, which is expected:
+
+- Renderer processes: ~70–300 MB each
+- GPU process present
+- Utility and network services active
+
+**Key Point**
+- Chrome is the **largest consumer of memory**, not the desktop
+- This behavior is normal and browser-specific
+- Desktop environment overhead remains minimal
+
+➡️ Any perceived “heaviness” comes from the browser, not the OS or desktop
+
+---
+
+## 4. fcitx5 Input Method Impact
+
+### fcitx5 Daemon Status
+- Process: `fcitx5 -d`
+- CPU usage: **0%**
+- Memory usage: **~41 MB**
+
+**Interpretation**
+- fcitx5 runs as a single, lightweight daemon
+- No CPU spikes
+- No duplicate processes
+- No background polling overhead
+
+✅ This confirms:
+- Stable input handling
+- Negligible system impact
+- No conflicts with the desktop environment
+
+---
+
+## 5. XFCE Desktop Efficiency
+
+### Key Observations
+- Desktop services consume minimal memory
+- No unnecessary background daemons
+- No input method conflicts (IBus fully removed)
+- Task manager and panels are lightweight
+
+### Practical Result
+Even with:
+- A heavy browser (Chrome)
+- Active input method
+- Multiple desktop utilities
+
+The system remains:
+- Responsive
+- Cool (low CPU)
+- Memory-efficient
+
+➡️ This demonstrates **XFCE’s strength as a low-overhead desktop environment**
+
+---
+
+## 6. Comparison Perspective
+
+| Component | Resource Impact |
+|---------|----------------|
+| XFCE Desktop | Very Low |
+| fcitx5 Input Method | Minimal |
+| Chrome Browser | High (expected) |
+| System Overhead | Low |
+
+**Conclusion**
+- The desktop environment is not the bottleneck
+- The system scales well with application load
+- XFCE maximizes usable resources for applications
+
+---
+
+## 7. Final Assessment
+
+> **XFCE is highly efficient relative to system capacity.**
+
+- CPU usage remains low
+- Memory usage stays well below limits
+- Input method overhead is negligible
+- Browser-heavy workloads do not destabilize the system
+
+This setup is ideal for:
+- Long-running browser sessions
+- Development work
+- Older or mid-range hardware
+- Users prioritizing responsiveness and stability
+
+---
+
+## 8. Conclusion
+
+The combination of **Debian + XFCE + fcitx5** provides:
+
+- Excellent performance efficiency
+- Minimal background overhead
+- Stable and predictable resource usage
+
+This environment proves that a modern Linux desktop can remain **lightweight, fast, and practical**, even with demanding applications like Chrome running simultaneously.
