@@ -1,0 +1,128 @@
+# Debian + XFCE Audio Conflict & Final Resolution Log  
+(PulseAudio → PipeWire)
+
+## 📌 Environment
+- **OS:** Debian  
+- **Desktop:** XFCE  
+- **Final Audio Stack:** PipeWire + WirePlumber  
+- **Output Devices:**
+  - HDMI (Graphics Card)
+  - SPDIF / IEC958 (Motherboard Digital)
+  - Analog Stereo (ALC892)
+
+---
+
+## 1️⃣ Problem Overview
+
+**Initial symptoms:**
+- System and browser audio would **work intermittently**
+- `pavucontrol` showed playback, but **no actual sound**
+- Output device kept switching between **IEC958 (SPDIF)** and **HDMI**
+- `pactl` and `paplay` commands failed intermittently
+
+---
+
+## 2️⃣ Root Cause During PulseAudio Stage
+
+### Main causes
+- PulseAudio was running in **mixed modes**:
+  - `systemd --user` managed instance
+  - legacy autospawn instance
+- HDMI / IEC958 / Analog outputs constantly switched
+- **Default sink became inconsistent and corrupted**
+
+### Typical symptoms
+- `pulseaudio --start` failed
+- `pactl info` returned connection refused
+- Sound sometimes worked, but control tools did not
+
+### Conclusion
+> **The PulseAudio daemon state was corrupted due to repeated restarts and mixed execution methods.**
+
+---
+
+## 3️⃣ Strategy Change: Switching to PipeWire
+
+Instead of repairing PulseAudio, the decision was made to **migrate to PipeWire**.
+
+### Why PipeWire
+- Full PulseAudio compatibility (`pipewire-pulse`)
+- More stable handling of HDMI and analog outputs
+- Near-standard setup for Debian + XFCE
+
+---
+
+## 4️⃣ PipeWire Installation & Migration
+
+```bash
+sudo apt purge pulseaudio pulseaudio-utils
+sudo apt autoremove
+
+sudo apt install pipewire pipewire-pulse wireplumber pavucontrol
+Enable and start services:
+
+bash
+코드 복사
+systemctl --user enable pipewire pipewire-pulse wireplumber
+systemctl --user start pipewire pipewire-pulse wireplumber
+Verify:
+
+bash
+코드 복사
+pactl info
+# Server Name: PulseAudio (on PipeWire)
+5️⃣ Final Issue: Wrong Output Sink
+Even after switching to PipeWire, no sound was heard.
+
+Cause
+SPDIF (IEC958) was in RUNNING state
+
+Actual speakers were connected via HDMI
+
+The wrong default sink was selected
+
+Check available sinks
+bash
+코드 복사
+pactl list short sinks
+Example output:
+
+text
+코드 복사
+alsa_output.pci-0000_00_03.0.hdmi-stereo
+alsa_output.pci-0000_00_1b.0.iec958-stereo
+6️⃣ Decisive Fix (Critical Command)
+bash
+코드 복사
+pactl set-default-sink alsa_output.pci-0000_00_03.0.hdmi-stereo
+👉 Locks the graphics card HDMI audio as the system default output.
+
+Immediate results:
+
+Browser audio works
+
+System sounds work
+
+speaker-test works correctly
+
+7️⃣ Final System State (Ending)
+✅ PipeWire + WirePlumber running normally
+✅ HDMI audio fixed as default output
+✅ SPDIF / IEC958 conflict eliminated
+✅ Stable under XFCE
+✅ Persists after reboot
+
+🧠 Key Lesson
+The real problem was not whether sound existed, but
+where the sound was being sent (the Sink).
+
+HDMI ≠ SPDIF ≠ Analog
+
+Linux does not auto-correct this reliably
+
+Explicitly setting the default sink solves everything
+
+🏁 Final Summary
+In a Debian + XFCE environment, PulseAudio-based audio conflicts caused
+HDMI and IEC958 outputs to become misaligned, resulting in no sound.
+After migrating from PulseAudio to PipeWire and explicitly setting:
