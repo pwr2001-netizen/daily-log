@@ -1,0 +1,111 @@
+# Minimal Disk Space Maintenance on Linux  
+*(Debian / XFCE – What You Actually Need to Do)*
+
+## Overview
+
+Unlike Windows, Linux systems do **not** require regular “disk cleaning”
+to maintain performance.
+
+However, there are **a few minimal and safe actions**
+that can be performed **occasionally** to reclaim disk space,
+especially on long-running systems.
+
+This document lists **only what is necessary** —
+nothing more.
+
+---
+
+## 1. APT Package Cache Cleanup (Optional, Safe)
+
+APT stores downloaded `.deb` packages in a local cache.
+These files are **not automatically deleted**, but they are also **harmless**.
+
+### When to do this
+- Disk space is running low
+- System has been updated many times
+- Once every few months (at most)
+
+### Command
+```bash
+sudo apt clean
+What it does
+Removes cached package files from:
+
+swift
+코드 복사
+/var/cache/apt/archives/
+Does not remove installed software
+
+Does not affect system stability
+
+Frequency
+Rarely
+
+Only when disk space matters
+
+2. Remove Unused Automatically Installed Packages
+Some libraries are installed automatically as dependencies
+and may no longer be needed after software removal.
+
+Command
+bash
+코드 복사
+sudo apt autoremove
+What it does
+Removes unused dependency packages
+
+Keeps explicitly installed software intact
+
+Safe and recommended
+
+When to run
+After uninstalling software
+
+Occasionally as general maintenance
+
+3. System Logs (Usually Not Required)
+On modern Debian systems (systemd-based),
+log files are automatically rotated and size-limited.
+
+Check current log usage (optional)
+bash
+코드 복사
+journalctl --disk-usage
+Reduce logs only if necessary
+bash
+코드 복사
+sudo journalctl --vacuum-time=7d
+Important
+Default behavior is already safe
+
+Manual log cleanup is not required for normal use
+
+4. Things You Should NOT Do
+The following actions are unnecessary or harmful on Linux:
+
+❌ Installing “Linux cleaner” tools
+
+❌ Manually deleting files in /tmp
+
+❌ Forcing RAM or cache cleanup
+
+❌ Deleting system directories
+
+❌ Running scripts that “optimize” disk usage aggressively
+
+Linux is designed to manage temporary files and caches automatically.
+
+5. Summary (Minimal Maintenance Philosophy)
+Action	Required
+Regular disk cleaning	❌ No
+RAM/cache flushing	❌ No
+APT cache cleanup	⚠️ Rarely
+Autoremove unused packages	✅ Occasionally
+Log cleanup	❌ Usually unnecessary
+
+Final Conclusion
+Linux does not accumulate “junk files” in the way Windows does.
+Disk space maintenance should be minimal, intentional, and rare.
+
+If the system is running normally and disk space is sufficient,
+no action is required.
