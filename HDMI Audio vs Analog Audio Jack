@@ -1,0 +1,61 @@
+# HDMI Audio vs Analog Audio Jack  
+## Recommended Audio Connection for Debian trixie + XFCE
+
+## Final Answer
+
+**Yes. In this environment, using the analog audio jack for speakers is the correct and recommended choice.**
+
+For a work-oriented desktop setup:
+
+- **Video:** HDMI → Monitor  
+- **Audio:** 3.5mm analog audio jack → Speakers  
+
+This configuration is **significantly more stable** than HDMI audio.
+
+---
+
+## Why HDMI Audio Is Problematic in This Environment
+
+### 1. HDMI Audio Is Tied to the GPU, Not the Motherboard
+HDMI audio devices belong to the **graphics card (HDA HDMI)**, not the main audio chipset.
+
+As a result, audio availability depends on:
+- Monitor power state
+- Input source switching
+- DPMS / screen power saving
+- Login / logout timing
+- Browser playback initialization
+
+Any mismatch can cause:
+- Audio devices to disappear and reappear
+- Default sinks to change unexpectedly
+- `auto_null`, timeouts, or complete silence
+
+---
+
+### 2. PipeWire + HDMI = Dynamic Device Instability
+PipeWire builds its audio graph based on **currently available devices**.
+
+HDMI audio devices are:
+- Not always present
+- Hot-plug–like in behavior
+- Frequently re-enumerated
+
+This creates structural instability when combined with PipeWire, especially on development branches.
+
+---
+
+### 3. Analog Audio Jack Is a Fixed, Always-Present Device
+By contrast, analog audio (e.g., ALC892):
+
+- Exists from boot to shutdown
+- Is unaffected by monitor state or power saving
+- Has over a decade of proven stability with PulseAudio
+- Rarely changes device IDs or default sinks
+
+---
+
+## Recommended Connection Layout
+
+### ✅ Stable, Work-Oriented Setup (Strongly Recommended)
+
