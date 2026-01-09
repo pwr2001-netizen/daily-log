@@ -1,0 +1,139 @@
+# Debian XFCE – fcitx5 Installation & Setup Guide
+
+This document explains how to **install and configure fcitx5** on  
+**Debian + XFCE**, after completely removing IBus.
+
+The goal is a **single, stable input method system** with proper
+Korean/English switching (Hangul key).
+
+---
+
+## Prerequisites
+
+- Debian with XFCE desktop
+- IBus fully removed
+- User session running on X11 (default for XFCE)
+
+---
+
+## 1. Install fcitx5 Packages (Debian Correct Names)
+
+```bash
+sudo apt update
+sudo apt install fcitx5 fcitx5-hangul fcitx5-config-qt fcitx5-frontend-gtk3
+Package explanation
+fcitx5 : Core daemon
+
+fcitx5-hangul : Korean (Hangul) input engine
+
+fcitx5-config-qt : GUI configuration tool
+
+fcitx5-frontend-gtk3 : GTK input support (Firefox, LibreOffice, etc.)
+
+2. Set fcitx5 as the Default Input Method
+bash
+코드 복사
+im-config -n fcitx5
+⚠️ Log out and log back in after running this command.
+Environment variables are applied only after re-login.
+
+3. Verify Environment Variables
+After logging back in, run:
+
+bash
+코드 복사
+echo $GTK_IM_MODULE
+echo $QT_IM_MODULE
+echo $XMODIFIERS
+Expected output:
+
+text
+코드 복사
+fcitx
+fcitx
+@im=fcitx
+If ibus appears, logout/login was not applied correctly.
+
+4. Confirm fcitx5 Daemon Is Running
+bash
+코드 복사
+ps aux | grep fcitx
+Expected output includes:
+
+text
+코드 복사
+/usr/bin/fcitx5 -d
+If not running, start it manually:
+
+bash
+코드 복사
+fcitx5 -d
+5. Configure Input Methods and Keys
+Launch the configuration tool:
+
+bash
+코드 복사
+fcitx5-config-qt
+Recommended settings
+Input Method list
+English (US)
+
+Korean – Hangul
+
+Key settings
+Trigger Input Method: Hangul
+
+Remove:
+
+Shift+Space
+
+Alt+Shift
+
+This provides Windows-like Korean/English switching.
+
+6. Enable fcitx5 Autostart in XFCE (Recommended)
+XFCE does not always auto-launch input daemons reliably.
+
+Open:
+
+Settings → Session and Startup → Application Autostart
+
+Add:
+
+Name: fcitx5
+
+Command:
+
+bash
+코드 복사
+fcitx5 -d
+7. Optional: Use Caps Lock as Hangul Toggle
+bash
+코드 복사
+setxkbmap -option caps:hangul
+To apply automatically on login:
+
+bash
+코드 복사
+echo 'setxkbmap -option caps:hangul' >> ~/.profile
+8. Final Verification Checklist
+✔ fcitx5 is the only running input method
+
+✔ Environment variables point to fcitx
+
+✔ Hangul key toggles Korean/English correctly
+
+✔ No Shift+Space dependency
+
+✔ Stable input across GTK and Qt applications
+
+Notes
+fcitx5 is more stable than IBus on XFCE
+
+Do not install or run multiple input frameworks simultaneously
+
+This setup is optimized for X11 (XFCE default)
+
+Conclusion
+This configuration provides a clean, conflict-free input environment
+on Debian + XFCE, with reliable Korean input using fcitx5.
