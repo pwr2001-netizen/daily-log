@@ -1,0 +1,72 @@
+# ❌ Debian trixie + PipeWire: Practical Stability Assessment
+
+## Summary Conclusion
+
+In the current environment, **the Debian trixie + PipeWire combination is not sufficiently stable for practical, daily desktop use**.
+
+Despite multiple recovery attempts:
+
+- `wireplumber` is running,
+- but `pipewire-pulse` (PulseAudio compatibility layer) fails to bind correctly,
+- resulting in `pactl` timeouts, silent browsers, and cascading session-level issues,
+- even after reinstallations, socket resets, and reboots.
+
+This is **not a user configuration mistake**,  
+but a **real-world compatibility issue** observed with:
+
+> **Debian trixie (development branch) + XFCE + PipeWire**
+
+---
+
+## Current State Diagnosis
+
+- ✔ `wireplumber`: active (running)
+- ⚠ `pipewire`: socket-based idle state
+- ❌ `pipewire-pulse`: Pulse server not reachable → `pactl` connection timeout
+- ❌ Browser audio not working
+- ❌ Input method (fcitx5) intermittently affected
+
+👉 Structurally “alive but not functional”
+
+---
+
+## Practical Recommendation
+
+> **For a work-oriented desktop, there is no strong reason to insist on PipeWire here.**
+
+While PipeWire is a modern multimedia stack, in this setup:
+
+- Debian *trixie* (unstable / development)
+- XFCE desktop
+- Typical desktop workloads (browser, office, coding)
+
+the **stability risk outweighs the benefits**.
+
+---
+
+## Available Options
+
+### 🔵 Option 1 — Log out and test once more
+- Clears a potentially corrupted login session
+- If successful, PipeWire can be kept
+- If not, proceed to Option 2
+
+### 🟢 Option 2 — Switch to PulseAudio only (**Recommended**)
+- Completely remove PipeWire and wireplumber
+- Use PulseAudio as the sole audio system
+- Long-term proven stability with XFCE
+- Immediate recovery of browser audio, `pactl`, `pavucontrol`, and input methods
+
+👉 **For a work desktop, Option 2 is the correct choice**
+
+---
+
+## Final Decision Required
+
+Please choose **one** of the following:
+
+- **“Log out and test once more”**
+- **“Switch directly to PulseAudio”**
+
+Based on your choice, the next step will  
+**complete the setup in a single, final procedure**.
