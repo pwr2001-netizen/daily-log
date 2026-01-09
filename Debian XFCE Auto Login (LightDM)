@@ -1,0 +1,130 @@
+# Debian XFCE Auto Login (LightDM)
+
+This guide explains how to **skip the login ID/password screen** and enable **automatic login** on **Debian + XFCE** using **LightDM**.
+
+> ⚠️ Recommended for **personal desktop PCs only**.  
+> Not recommended for laptops or shared computers due to security risks.
+
+---
+
+## ✅ Environment
+- OS: Debian
+- Desktop: XFCE
+- Display Manager: LightDM
+- Username: `rina`
+
+---
+
+## 📄 Configuration File
+LightDM main configuration file:
+
+/etc/lightdm/lightdm.conf
+
+bash
+코드 복사
+
+Open the file with root permission:
+
+```bash
+sudo nano /etc/lightdm/lightdm.conf
+✏️ Configuration Steps
+1️⃣ Keep the existing [LightDM] section unchanged
+Do NOT modify or remove existing commented lines.
+
+Example (default state):
+
+ini
+코드 복사
+[LightDM]
+#start-default-seat=true
+#greeter-user=lightdm
+#minimum-display-number=0
+#minimum-vt=7
+#lock-memory=true
+#user-authority-in-system-dir=false
+#guest-account-script=guest-account
+#logind-check-graphical=true
+#log-directory=/var/log/lightdm
+#run-directory=/var/run/lightdm
+#cache-directory=/var/cache/lightdm
+#sessions-directory=/usr/share/lightdm/sessions:/usr/share/xsessions:/usr/share/wayland-sessions
+#remote-sessions-directory=/usr/share/lightdm/remote-sessions
+#greeters-directory=$XDG_DATA_DIRS/lightdm/greeters:$XDG_DATA_DIRS/xgreeters
+#backup-logs=true
+#dbus-service=true
+2️⃣ Add a new [Seat:*] section at the bottom of the file
+ini
+코드 복사
+[Seat:*]
+autologin-user=rina
+autologin-user-timeout=0
+autologin-user : account name to log in automatically
+
+autologin-user-timeout=0 : no delay, instant login
+
+💾 Save & Reboot
+Save the file:
+
+Ctrl + O → Enter
+
+Ctrl + X
+
+Reboot the system:
+
+bash
+코드 복사
+sudo reboot
+🎯 Result
+No login screen
+
+No ID / password prompt
+
+XFCE desktop loads automatically as user rina
+
+🔍 Troubleshooting
+Check if LightDM is running
+bash
+코드 복사
+ps -e | grep lightdm
+If auto-login does not work
+Some systems prioritize files under:
+
+swift
+코드 복사
+/etc/lightdm/lightdm.conf.d/
+In that case, add the same [Seat:*] block to a file such as:
+
+swift
+코드 복사
+/etc/lightdm/lightdm.conf.d/50-autologin.conf
+Example:
+
+ini
+코드 복사
+[Seat:*]
+autologin-user=mike
+autologin-user-timeout=0
+🔐 Security Notes
+Anyone with physical access can use the system
+
+Not safe for laptops or public/shared PCs
+
+Suitable for:
+
+Personal desktop
+
+Development or test machines
+
+🔁 Disable Auto Login
+Remove or comment out the following lines and reboot:
+
+ini
+코드 복사
+autologin-user=rina
+autologin-user-timeout=0
+✅ Summary
+XFCE + LightDM supports clean auto-login
+
+Only [Seat:*] section is required
+
+Minimal change, reversible, stable
