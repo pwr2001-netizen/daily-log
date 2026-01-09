@@ -1,0 +1,99 @@
+# Telegram Desktop Installation  
+(Debian trixie + XFCE + Korean Desktop Folder)
+
+This document explains how to install **Telegram Desktop** on  
+**Debian trixie (testing)** where `telegram-desktop` is not available via `apt`,  
+using **Flatpak**, and how to create a **desktop launcher on an XFCE system**
+with a **Korean desktop folder (`바탕화면`)**.
+
+---
+
+## 1. System Environment
+
+- OS: Debian trixie (testing)
+- Desktop Environment: XFCE
+- Home directory language: Korean (`~/바탕화면`)
+- Installation method: Flatpak (recommended)
+
+---
+
+## 2. Install Flatpak
+
+```bash
+sudo apt update
+sudo apt install flatpak
+Add the Flathub repository (required once):
+
+bash
+코드 복사
+sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+3. Install Telegram Desktop (Flatpak)
+bash
+코드 복사
+flatpak install flathub org.telegram.desktop
+Test run:
+
+bash
+코드 복사
+flatpak run org.telegram.desktop
+4. Verify the Telegram Launcher File
+Check the Flatpak application launcher location:
+
+bash
+코드 복사
+ls /var/lib/flatpak/exports/share/applications | grep telegram
+Expected output:
+
+코드 복사
+org.telegram.desktop.desktop
+5. Create a Telegram Desktop Icon (XFCE – Korean Desktop)
+5.1 Copy the launcher to the Desktop folder
+bash
+코드 복사
+cp /var/lib/flatpak/exports/share/applications/org.telegram.desktop.desktop ~/바탕화면/
+5.2 Rename the launcher (optional)
+bash
+코드 복사
+mv ~/바탕화면/org.telegram.desktop.desktop ~/바탕화면/Telegram.desktop
+5.3 Grant execute permission (required)
+bash
+코드 복사
+chmod +x ~/바탕화면/Telegram.desktop
+6. Allow Execution in XFCE (Important)
+Right-click the Telegram icon on the desktop
+
+Select Properties
+
+Enable “Allow this file to run as a program”
+
+Close the dialog
+
+Or mark the launcher as trusted via terminal:
+
+bash
+코드 복사
+gio set ~/바탕화면/Telegram.desktop metadata::trusted true
+7. Launch Test
+Double-click the Telegram desktop icon
+
+Telegram Desktop should start successfully
+
+8. Notes
+On Debian trixie, telegram-desktop may not be available in APT repositories
+
+Flatpak is the most reliable installation method in this environment
+
+Flatpak launcher path:
+
+swift
+코드 복사
+/var/lib/flatpak/exports/share/applications/
+On XFCE with a Korean desktop directory,
+execute permission and launcher trust must be set manually
+
+9. Useful Commands Summary
+bash
+코드 복사
+flatpak run org.telegram.desktop
+chmod +x ~/바탕화면/Telegram.desktop
+gio set ~/바탕화면/Telegram.desktop metadata::trusted true
