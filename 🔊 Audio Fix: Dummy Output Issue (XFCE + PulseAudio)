@@ -1,0 +1,153 @@
+# 🔊 Audio Fix: Dummy Output Issue (XFCE + PulseAudio)
+
+## Summary
+
+This document records the **successful resolution of a “no sound / Dummy Output” issue**
+that occurred after launching Google Chrome with custom GPU flags on **XFCE**.
+
+The problem was **not Chrome itself**, but an **audio backend fallback to Dummy Output**
+caused by PulseAudio losing track of the real sound device.
+
+---
+
+## 🖥️ Environment
+
+- OS: Linux
+- Desktop Environment: XFCE (X11)
+- Browser: Google Chrome (custom launch flags)
+- Audio Backend: **PulseAudio (standalone)**
+- PipeWire / WirePlumber: ❌ Not installed
+- Hardware: Intel integrated audio
+
+---
+
+## ❗ Symptoms
+
+- YouTube / Chrome video plays normally
+- ❌ No sound at all
+- Volume sliders move but no audio output
+- In **Volume Control → Output Devices**, only:
+Dummy Output
+
+yaml
+코드 복사
+is shown
+- Chrome shows multiple playback streams, but all are silent
+
+---
+
+## 🔍 Root Cause
+
+- Chrome was launched with custom GPU/X11 flags
+- PulseAudio failed to re-bind to the real ALSA sound device
+- PulseAudio fell back to **Dummy Output**
+- Result:
+- Video works
+- Audio pipeline is disconnected
+
+This is a **known and common issue** on XFCE + PulseAudio setups.
+
+---
+
+## ✅ Confirmed Audio Backend
+
+Attempting to restart WirePlumber failed:
+
+```bash
+systemctl --user restart wireplumber
+Result:
+
+kotlin
+코드 복사
+Unit wireplumber.service not found
+➡ This confirms the system uses PulseAudio only, not PipeWire.
+
+🛠️ Final Working Solution (PulseAudio)
+1️⃣ Fully restart PulseAudio (safe)
+bash
+코드 복사
+pulseaudio -k
+sleep 2
+pulseaudio --start
+This does NOT log out or kill the X session
+
+It forces PulseAudio to re-detect ALSA devices
+
+2️⃣ Verify PulseAudio is running
+bash
+코드 복사
+pactl info
+Expected output contains:
+
+pgsql
+코드 복사
+Server Name: pulseaudio
+3️⃣ Reopen Volume Control
+Open Volume Control and go to:
+
+mathematica
+코드 복사
+Output Devices
+✅ Expected result:
+
+Dummy Output disappears
+
+One or more real devices appear, such as:
+
+Built-in Audio Analog Stereo
+
+Speaker / Headphones
+
+HDA Intel PCH
+
+Select the real analog output.
+
+4️⃣ Restart media playback
+Pause YouTube / Chrome video
+
+Wait 2–3 seconds
+
+Play again ▶
+
+Sound should now be restored.
+
+❌ If Dummy Output Still Appears
+Check ALSA device detection
+bash
+코드 복사
+aplay -l
+Expected example:
+
+yaml
+코드 복사
+card 0: PCH [HDA Intel PCH], device 0: ALCxxx Analog
+If no devices are listed, the issue is at the kernel/ALSA level.
+
+Force ALSA reload (if needed)
+bash
+코드 복사
+sudo alsa force-reload
+Then restart PulseAudio again:
+
+bash
+코드 복사
+pulseaudio -k
+pulseaudio --start
+🧠 Key Lessons
+Chrome audio issues can be audio-backend problems, not browser bugs
+
+Dummy Output means no real sound card is bound
+
+PulseAudio may silently fall back after GPU / X11 changes
+
+Restarting PulseAudio is often sufficient
+
+✅ Final Result
+✔ Dummy Output removed
+
+✔ Real audio device restored
+
+✔ Chrome / YouTube sound working normally
+
+✔ No system reboot required
+
