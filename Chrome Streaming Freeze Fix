@@ -1,0 +1,169 @@
+# ✅ Chrome Streaming Freeze Fix  
+## XFCE (X11) + Intel Integrated Graphics
+
+---
+
+## 📌 Environment
+- OS: Linux
+- Desktop Environment: XFCE (X11)
+- GPU: Intel Integrated Graphics (iGPU)
+- Browser: Google Chrome (Stable)
+- Display Server: X11
+
+---
+
+## ❗ Problem Description
+
+When playing streaming videos (YouTube, DRM-based sites, etc.) in Chrome:
+
+- Video playback works
+- ❌ Scrolling stops responding
+- ❌ Mouse clicks are ignored
+- ❌ Tab switching becomes impossible
+- Chrome UI appears frozen while audio/video continues
+
+---
+
+## 🔍 Root Cause Analysis
+
+On **Intel iGPU + XFCE**, Chrome attempts to use the GPU for:
+- Video decoding
+- UI compositing
+- Canvas rendering
+- Skia GPU rendering
+
+This causes **GPU queue contention**, leading to:
+- Input event starvation
+- UI thread blocking
+- “Video plays but browser is frozen” behavior
+
+---
+
+## 🎯 Solution Strategy (Key Concept)
+
+> 🎥 **Use GPU only for video decoding**  
+> 🖱️ **Force UI, compositing, and canvas rendering to CPU**
+
+This is achieved by:
+1. Disabling specific GPU paths via `chrome://flags`
+2. Forcing runtime behavior with Chrome launch options
+
+---
+
+## 🧩 chrome://flags Configuration
+
+Open:
+chrome://flags
+
+vbnet
+코드 복사
+
+### ❌ Flags that MUST be disabled
+
+```text
+#enable-gpu-rasterization        → Disabled
+#enable-zero-copy               → Disabled
+#disable-accelerated-2d-canvas  → Enabled
+Explanation:
+
+Prevents UI and canvas rasterization from using GPU
+
+Eliminates the primary cause of UI freezing on XFCE + Intel
+
+✅ Flags that MUST remain enabled / default
+text
+코드 복사
+#enable-accelerated-video-decode    → Default (DO NOT disable)
+#enable-pixel-canvas-recording      → Enabled / Default
+Explanation:
+
+Hardware video decode is required for DRM streaming
+
+Pixel canvas recording improves text rendering and does not affect stability
+
+⚪ Flags NOT related to the issue (leave Default)
+text
+코드 복사
+#cast-streaming-hardware-h264
+#cast-streaming-hardware-hevc
+#cast-streaming-hardware-vp8
+#cast-streaming-hardware-vp9
+(Chromecast-only video encoding, not used for web playback)
+
+🚀 Final Working Chrome Launch Command
+bash
+코드 복사
+google-chrome \
+--disable-accelerated-2d-canvas \
+--disable-gpu-compositing \
+--disable-features=UseSkiaRenderer \
+--ozone-platform=x11
+🛠️ Purpose of Each Launch Option
+Option	Purpose
+--disable-accelerated-2d-canvas	Disables GPU-based Canvas 2D rendering
+--disable-gpu-compositing	Forces CPU-based UI compositing (critical fix)
+--disable-features=UseSkiaRenderer	Bypasses Skia GPU renderer
+--ozone-platform=x11	Forces X11 path, avoids Wayland input issues
+
+🔎 Verification
+Open:
+
+arduino
+코드 복사
+chrome://gpu
+Expected Stable State
+Canvas: Software only
+
+Rasterization: Software only
+
+Video Decode: Hardware accelerated
+
+Vulkan: Disabled
+
+No UI freeze during video playback
+
+⚠️ Note
+Newer Chrome versions may still display
+Compositing: Hardware accelerated,
+but if UI freezing is gone, the fix is effective.
+
+🖥️ Optional: XFCE Menu / Desktop Launcher
+Create:
+
+pgsql
+코드 복사
+~/.local/share/applications/google-chrome-stable-safe.desktop
+ini
+코드 복사
+[Desktop Entry]
+Name=Google Chrome (Safe Streaming)
+Comment=Stable Chrome for XFCE + Intel iGPU
+Exec=google-chrome --disable-accelerated-2d-canvas --disable-gpu-compositing --disable-features=UseSkiaRenderer --ozone-platform=x11
+Icon=google-chrome
+Terminal=false
+Type=Application
+Categories=Network;WebBrowser;
+Enable:
+
+bash
+코드 복사
+chmod +x ~/.local/share/applications/google-chrome-stable-safe.desktop
+✅ Final Result
+Streaming video plays normally
+
+Scrolling, clicking, and tab switching remain responsive
+
+No UI freeze during long playback sessions
+
+Slightly higher CPU usage (expected and acceptable)
+
+🧠 One-Line Summary
+On XFCE with Intel iGPU, Chrome streaming freezes are solved by
+using the GPU only for video decoding and forcing all UI rendering to the CPU.
+
+📅 Status
+Issue: ✅ Resolved
+
+Method: Runtime launch options + selective flags
+
+Stability: High (long-session tested)
