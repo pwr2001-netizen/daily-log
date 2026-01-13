@@ -1,0 +1,78 @@
+# ✅ Enable Num Lock from Login Screen (FINAL – SINGLE BLOCK)
+# Debian / XFCE / LightDM
+
+## Background
+On Debian systems using XFCE with LightDM, Num Lock is often disabled at the
+login screen. This causes inconvenience when entering passwords using the
+numeric keypad.
+
+This document records the FINAL and VERIFIED solution that enables Num Lock
+starting from the login screen, before any user session begins.
+
+---
+
+## Environment
+- OS: Debian
+- Desktop Environment: XFCE
+- Display Manager: LightDM
+- Display Server: X11
+
+---
+
+## Step 1: Install numlockx
+
+sudo apt update
+sudo apt install numlockx -y
+
+numlockx is a lightweight utility used to control the Num Lock state under X11.
+
+---
+
+## Step 2: Configure LightDM (Login Screen Level)
+
+Open or create the LightDM configuration file:
+
+sudo nano /etc/lightdm/lightdm.conf
+
+Add the following content EXACTLY as shown:
+
+[Seat:*]
+greeter-setup-script=/usr/bin/numlockx on
+
+Explanation:
+- greeter-setup-script runs BEFORE the login screen is displayed
+- numlockx on enables Num Lock at the greeter level
+- This affects the login screen itself, not just the user session
+
+Save and exit:
+- Ctrl + O → Enter
+- Ctrl + X
+
+---
+
+## Step 3: Reboot
+
+reboot
+
+---
+
+## Verification
+
+After reboot:
+- Wait for the LightDM login screen
+- Check the Num Lock LED
+- Use the numeric keypad immediately
+
+Expected result:
+- Num Lock is ON at the login screen
+- Numeric keypad works before login
+
+---
+
+## Final Verdict
+
+For Debian + XFCE users, enabling Num Lock via LightDM with numlockx
+is the MOST reliable, practical, and stable solution.
+
+Once applied, Num Lock works from the login screen onward,
+eliminating the need for session scripts or manual toggling.
