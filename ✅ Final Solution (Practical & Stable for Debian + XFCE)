@@ -1,0 +1,72 @@
+## ✅ Final Solution (Practical & Stable for Debian + XFCE)
+
+### Background
+On Debian + XFCE, fcitx5 often starts correctly at boot, but the input method
+remains inactive (dormant). As a result, Korean input does not work immediately
+after login, even though the fcitx5 daemon is already running.
+
+Manually opening `fcitx5-configtool` wakes up the input method and makes Korean
+input work, which proves that the problem is NOT installation or configuration,
+but a missing activation trigger during startup.
+
+The solution is to:
+1) Explicitly start fcitx5 at login
+2) Force it to wake up once after the desktop session is ready
+
+---
+
+### 1️⃣ Register fcitx5 in Startup Programs
+
+This ensures the fcitx5 daemon is always running after login.
+
+XFCE Menu  
+Settings → Session and Startup → Application Autostart → Add
+
+Command:
+fcitx5 -d --replace
+
+Name: Fcitx5  
+Description: Input Method
+
+Effect:
+- Starts the fcitx5 daemon reliably at every login
+- Prevents missing or duplicated fcitx5 instances
+
+---
+
+### 2️⃣ Add a Wake-Up Trigger (Critical Step)
+
+This step is essential. Without it, fcitx5 may remain in a dormant state.
+
+Add one more startup entry in the same menu:
+
+Command:
+sh -c "sleep 1 && fcitx5 -r"
+
+Name: Fcitx5 Wakeup  
+
+Purpose:
+- Waits 1 second to allow the XFCE session and system tray to initialize
+- Forces fcitx5 to reload and activate the input method state
+- Has the same effect as manually opening the configuration tool
+- Eliminates the need for any manual interaction after boot
+
+---
+
+### Result
+
+After applying both startup entries:
+- Korean input works immediately after boot
+- No need to open fcitx5-configtool manually
+- Stable behavior across terminal, browser, and LibreOffice
+- Reboot-safe and update-safe
+
+This approach resolves almost all Korean input issues caused by
+fcitx5 activation timing on Debian + XFCE.
+
+---
+
+### Final Verdict
+
+This is the most practical, stable, and real-world solution
+for Korean input on Debian + XFCE.
