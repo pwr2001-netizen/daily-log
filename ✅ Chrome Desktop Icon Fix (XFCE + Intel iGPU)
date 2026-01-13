@@ -1,0 +1,127 @@
+# ✅ Chrome Desktop Icon Fix (XFCE + Intel iGPU)
+
+## Summary
+
+This document records the **successful setup of a desktop icon on XFCE**  
+that launches Google Chrome with **stable streaming settings**,  
+solving the issue where:
+
+- Chrome works correctly when launched from the terminal
+- ❌ But fails or freezes when launched from a desktop icon
+
+The final solution ensures that **desktop icon execution behaves exactly the same as terminal execution**.
+
+---
+
+## 🖥️ Environment
+
+- OS: Linux
+- Desktop Environment: XFCE (X11)
+- GPU: Intel Integrated Graphics
+- Browser: Google Chrome (Stable)
+- Language: Korean locale (Desktop folder = `바탕화면`)
+
+---
+
+## ❗ Original Problem
+
+- Chrome streaming freezes (scroll/click unresponsive)
+- Fixed when launched via terminal with custom flags
+- ❌ Desktop icon launch ignored those flags
+- Result:
+  - Streaming freezes returned
+  - Different runtime behavior between terminal vs icon
+
+---
+
+## 🔍 Root Cause
+
+1. XFCE **does not automatically apply terminal launch options** to desktop icons
+2. `.desktop` files are sensitive to:
+   - Line breaks in `Exec=`
+   - Incorrect binary paths
+   - Missing execution permissions
+3. XFCE desktop icons require:
+   - Correct Desktop directory (`xdg-user-dir DESKTOP`)
+   - Explicit user approval (“Allow Launching”)
+
+---
+
+## 🎯 Final Working Strategy
+
+> **Make the desktop icon run exactly the same command as the terminal.**
+
+Key points:
+- Use a **single-line `Exec=`**
+- Use the **absolute Chrome binary path**
+- Place the file in the **correct desktop directory**
+- Reload XFCE desktop
+
+---
+
+## 📁 Confirm Desktop Directory
+
+```bash
+xdg-user-dir DESKTOP
+
+Output (example):
+/home/donghan/바탕화면
+This confirms the real desktop folder used by XFCE.
+
+📄 Final Working .desktop File
+File name
+google-chrome-stable-safe.desktop
+Location
+~/바탕화면/google-chrome-stable-safe.desktop
+
+[Desktop Entry]
+Version=1.0
+Name=Google Chrome (Safe Streaming)
+Comment=Stable Chrome for XFCE + Intel iGPU (No UI Freeze)
+Exec=/usr/bin/google-chrome --disable-accelerated-2d-canvas --disable-gpu-compositing --disable-features=UseSkiaRenderer --ozone-platform=x11 %U
+Icon=google-chrome
+Terminal=false
+Type=Application
+Categories=Network;WebBrowser;
+StartupNotify=true
+
+⚠️ Important:
+    • Exec= must be a single line
+    • Do NOT use \ line continuation
+    • Do NOT wrap the command in quotes
+
+🔐 Required Permissions
+chmod +x ~/바탕화면/google-chrome-stable-safe.desktop
+Reload the XFCE desktop:
+xfdesktop --reload
+
+🖱️ Mandatory GUI Step (XFCE Security)
+After the icon appears:
+    1. Right-click the icon
+    2. Select “Allow Launching”
+    3. Double-click to run
+Without this step, the icon may not execute correctly.
+
+✅ Verification
+Launch Chrome using the desktop icon, then open:
+chrome://gpu
+Expected stable state:
+    • Canvas: Software only
+    • Rasterization: Software only
+    • Video Decode: Hardware accelerated
+    • Vulkan: Disabled
+    • Streaming works without UI freeze
+
+🧠 Key Lessons
+    • XFCE desktop icons are not the same as menu entries
+    • Terminal success ≠ desktop icon success
+    • .desktop files must be precise and minimal
+    • Absolute paths + single-line Exec are critical
+
+📌 Final Result
+    • ✅ Desktop icon launches Chrome with stable flags
+    • ✅ Same behavior as terminal execution
+    • ✅ Streaming works without freezes
+    • ✅ Persists across reboots
+
+
