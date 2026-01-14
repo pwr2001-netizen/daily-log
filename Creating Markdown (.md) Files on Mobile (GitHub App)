@@ -1,0 +1,94 @@
+# Creating Markdown (.md) Files on Mobile (GitHub App)
+
+This guide explains how to create and edit **Markdown (.md) files** using the **GitHub mobile app**.
+
+---
+
+## ✅ Create a `.md` File in the GitHub Mobile App
+
+### 1️⃣ Open the Repository
+- Go to the repository (e.g. `daily-log`)
+- Stay on the **Code** tab
+
+### 2️⃣ Create a New File
+- Tap the **➕ (plus)** button in the top-right corner
+- Select **Create new file**
+
+### 3️⃣ Enter the File Name
+Examples:
+2026-01-10.md
+README.md
+log_2026-01-10.md
+
+csharp
+코드 복사
+⚠️ The filename **must end with `.md`**
+
+### 4️⃣ Write the Content (Markdown)
+Example content:
+
+```md
+# Daily Log – 2026-01-10
+
+## ✅ Today
+- Debian XFCE environment cleanup
+- Tested Markdown editing on mobile GitHub
+
+## 🛠 Notes
+- Markdown files can be created on mobile
+- Commit frequently to avoid data loss
+
+## 🔗 Reference
+- https://github.com/pwr2001-netizen/daily-log
+5️⃣ Commit the File
+Tap Commit changes
+
+Commit message example:
+
+pgsql
+코드 복사
+Add daily log for 2026-01-10
+Branch: main
+
+Tap Commit
+
+✍️ Essential Markdown Syntax (Mobile-Friendly)
+md
+코드 복사
+# Main Title
+## Section
+### Subsection
+
+- Bullet list
+- Bullet list
+
+**Bold text**
+_Italic text_
+
+`inline code`
+
+```bash
+multi-line
+code block
+Link text
+
+yaml
+코드 복사
+
+---
+
+## 📌 Mobile Markdown Tips
+- GitHub mobile has **no auto-save**
+- Commit often when writing long notes
+- Use date-based filenames: `YYYY-MM-DD.md`
+- Ideal for **daily logs, technical notes, and public records**
+
+---
+
+## 🔥 Recommended Repository Structure (daily-log)
+
+daily-log/
+├─ 2026-01-08.md
+├─ 2026-01-09.md
+├─ 2026-01-10.md
+└─ README.md
