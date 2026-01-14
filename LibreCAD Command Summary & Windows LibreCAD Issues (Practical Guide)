@@ -1,0 +1,193 @@
+# LibreCAD Command Summary & Windows LibreCAD Issues (Practical Guide)
+
+This document summarizes **(1) essential LibreCAD commands** and **(2) structural problems of LibreCAD on Windows**,  
+based on real-world usage rather than documentation theory.
+
+---
+
+## 1. LibreCAD Command Summary (Minimum for Practical Use)
+
+### ⌨️ Basic Drawing (Draw)
+
+| Command | Function |
+|---|---|
+| `line` (`l`) | Draw line |
+| `polyline` (`pl`) | Polyline |
+| `rectangle` (`r`) | Rectangle |
+| `circle` (`c`) | Circle |
+| `arc` (`a`) | Arc |
+| `ellipse` | Ellipse |
+
+---
+
+### ✏️ Modify (Most Frequently Used)
+
+| Command | Function |
+|---|---|
+| `move` (`m`) | Move |
+| `copy` (`co`) | Copy |
+| `rotate` (`ro`) | Rotate |
+| `mirror` (`mi`) | Mirror |
+| `scale` (`s`) | Scale |
+| `trim` (`tr`) | Trim |
+| `extend` (`ex`) | Extend |
+| `offset` (`o`) | Offset |
+| `fillet` (`f`) | Fillet |
+| `chamfer` (`ch`) | Chamfer |
+| `explode` (`x`) | Explode ⚠️ |
+
+---
+
+### 📐 Dimension
+
+| Command | Function |
+|---|---|
+| `dimlinear` | Linear dimension |
+| `dimaligned` | Aligned dimension |
+| `dimradius` | Radius |
+| `dimdiameter` | Diameter |
+| `dimangular` | Angular dimension |
+
+---
+
+### 🎯 Snap (Critical for Accuracy)
+
+| Command | Function |
+|---|---|
+| `snapend` | Endpoint |
+| `snapmiddle` | Midpoint |
+| `snapcenter` | Center |
+| `snapintersection` | Intersection |
+| `snapgrid` | Grid |
+| `snapnone` | Disable snap |
+
+---
+
+### 🔍 View / Control
+
+| Command | Function |
+|---|---|
+| `zoom` (`z`) | Zoom |
+| `zoom auto` | Zoom all |
+| `pan` | Pan |
+| `selectall` | Select all |
+| `deselectall` | Deselect |
+| `Esc` | Cancel command |
+
+---
+
+### ✅ Practical Minimum Set (80% of work)
+
+L M CO TR O
+Z Esc Del
+
+yaml
+코드 복사
+
+---
+
+## 2. Structural Problems of LibreCAD on Windows
+
+This section explains **why Windows LibreCAD often fails in real work**.
+
+---
+
+### ❌ 1. Command Line / Docking Problems
+
+**Symptoms**
+- Command Line disappears
+- Enabled in View menu but not visible
+- Not listed under Toolbars
+- No reliable way to restore
+
+**Root Cause**
+- Qt Dock state corruption
+- Especially frequent in Windows MSVC builds
+- Triggered by DPI scaling or display changes
+
+➡ **This is not a user mistake**
+
+---
+
+### ❌ 2. No UI Reset in Windows Builds
+
+- Some Linux builds include UI reset
+- **Windows MSVC builds do not**
+- `Options → Restore Defaults` is missing
+
+➡ Only solution: manually delete config files  
+➡ Extremely unfriendly for non-technical users
+
+---
+
+### ❌ 3. DWG Handling Limitations
+
+- LibreCAD is **DXF-oriented**
+- DWG is opened via conversion
+- Block / dimension / attribute structures are not preserved
+
+➡ **Not a DWG-compatible editor**
+➡ DWG is for reference only
+
+---
+
+### ❌ 4. Maintenance & Direction Issues
+
+- Slow development pace
+- Limited Windows QA testing
+- Linux-first, Windows-second priority
+
+➡ Not suitable for production environments
+
+---
+
+### ❌ 5. Misalignment with Professional Responsibility
+
+- UI failure = work stoppage
+- Cause unclear
+- Requires reinstall or manual cleanup
+
+➡ **High risk when money and deadlines are involved**
+
+---
+
+## 3. Realistic Position of LibreCAD
+
+| Usage | Evaluation |
+|---|---|
+| Learning | ✅ |
+| Personal practice | ✅ |
+| Linux environment | ⚠️ |
+| Windows professional use | ❌ |
+| Delivery / collaboration | ❌ |
+
+---
+
+## Key Conclusion (One Sentence)
+
+> **LibreCAD is an open-source 2D CAD tool,  
+not a professional Windows CAD solution.**
+
+The problems encountered are **tool limitations, not skill issues**.
+
+---
+
+## Practical Recommendations
+
+- LibreCAD (Windows): ❌ Avoid
+- QCAD Community Edition: ✅ Simple edits / reference
+- AutoCAD / BricsCAD: ✅ Collaboration & delivery
+- LibreCAD on Linux: Learning / experimentation only
+
+---
+
+This marks the transition from  
+**“Why doesn’t this work?”**  
+to  
+**“Which tool fits which job?”**
+
+
+
+
+
+
