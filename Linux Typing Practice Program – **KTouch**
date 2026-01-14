@@ -1,0 +1,99 @@
+# ⌨️ Linux Typing Practice Program – **KTouch**
+
+## 📌 What is KTouch?
+**KTouch** is a free, open-source typing tutor for Linux, developed as part of the KDE project.  
+It is designed to help users improve typing speed and accuracy through **structured lessons, real-time feedback, and progress tracking**.
+
+KTouch is suitable for:
+- Beginners learning keyboard layout
+- Users practicing daily typing
+- Linux users looking for a lightweight, stable typing trainer
+
+---
+
+## 🖥️ Supported Environments
+- Debian / Ubuntu / Linux Mint
+- XFCE, GNOME, KDE, LXQt
+- Works well with **fcitx / fcitx5** input methods
+
+---
+
+## ✨ Key Features
+
+### ✅ Structured Typing Lessons
+- Step-by-step lessons from basic keys to full sentences
+- Gradual difficulty increase
+- Focus on proper finger placement
+
+### ✅ Real-Time Feedback
+- Typing speed (WPM)
+- Accuracy rate
+- Error highlighting while typing
+
+### ✅ Progress Tracking
+- Lesson completion history
+- Speed improvement over time
+- Accuracy statistics
+
+### ✅ Multi-Language Support
+- English layouts included by default
+- Custom layouts can be added
+- Works with Korean input (Hangul) when system IME is configured correctly
+
+### ✅ Clean GUI
+- Simple, distraction-free interface
+- No ads, no account required
+- Lightweight and responsive
+
+---
+
+## 📦 Installation (Debian / Ubuntu)
+
+```bash
+sudo apt update
+sudo apt install -y ktouch
+Run:
+
+bash
+코드 복사
+ktouch
+🖱️ Desktop Shortcut (XFCE / Linux)
+bash
+코드 복사
+cp /usr/share/applications/org.kde.ktouch.desktop ~/바탕화면/KTouch.desktop
+chmod +x ~/바탕화면/KTouch.desktop
+🇰🇷 Korean Typing Notes (Important)
+KTouch itself does not manage input methods
+
+Korean typing depends on system IME:
+
+Recommended: fcitx5
+
+Always verify Hangul input works in:
+
+Browser
+
+Text editor
+before testing inside KTouch
+
+👍 Why Choose KTouch?
+Feature	KTouch
+Free / Open Source	✅
+GUI Interface	✅
+Beginner Friendly	✅
+Progress Statistics	✅
+Stable on Linux	✅
+Offline Use	✅
+
+🧠 Recommended Setup
+GUI practice: KTouch
+
+Terminal practice: gtypist
+
+Input method: fcitx5
+
+Desktop: XFCE / KDE
+
+📎 Summary
+KTouch is the most reliable and beginner-friendly typing practice program on Linux.
+It is ideal for users who want a clean GUI, measurable progress, and stable performance without unnecessary complexity.
