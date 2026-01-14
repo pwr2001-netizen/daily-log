@@ -1,0 +1,162 @@
+# Connecting a Custom Domain on Netlify (Example: md.com)
+
+This guide explains how to connect your Netlify site  
+(currently: `https://jb-bank-philippines.netlify.app`)  
+to your own domain (example: `md.com`).
+
+The **recommended and safest method** is using **Netlify DNS (nameserver change)**.
+
+---
+
+## 0) Prerequisites
+- Your site is already deployed on Netlify (Published)
+- You already own the domain `md.com`
+- You want to avoid DNS conflicts (A/CNAME issues)
+
+---
+
+## 1) Add the Custom Domain in Netlify
+
+1. Log in to **Netlify**
+2. Select your site
+3. Go to **Site settings**
+4. Open **Domain management**
+5. Click **Add custom domain**
+6. Enter: `md.com`
+7. Click **Verify** → **Add domain**
+
+### (Recommended) Also add `www.md.com`
+- Add `www.md.com` the same way
+- This allows easy redirection between `www` and non-`www`
+
+---
+
+## 2) Switch to Netlify DNS (Recommended)
+
+### 2-1) Enable Netlify DNS
+1. In **Site settings → Domain management**
+2. Find your domain `md.com`
+3. Choose **Use Netlify DNS** (wording may vary)
+4. Netlify will show **4 nameservers (NS)**
+
+Example format:
+dns1.pXX.nsone.net
+dns2.pXX.nsone.net
+dns3.pXX.nsone.net
+dns4.pXX.nsone.net
+
+yaml
+코드 복사
+
+> IMPORTANT: Copy **exactly** the nameservers shown in Netlify.
+
+---
+
+## 3) Change Nameservers at Your Domain Provider
+
+⚠️ Do **NOT** edit A records or CNAME records here.  
+You must change **nameservers**, not DNS records.
+
+1. Log in to your domain registrar (Gabia, Whois, GoDaddy, Namecheap, etc.)
+2. Open domain management for `md.com`
+3. Find **Nameserver / Name Servers / NS settings**
+4. Replace existing nameservers with the **4 Netlify nameservers**
+5. Save / Apply changes
+
+---
+
+## 4) Wait for DNS Propagation
+- Usually **10 minutes to 1 hour**
+- In some cases up to **24 hours**
+- During this time:
+  - The domain may not load (normal)
+  - HTTPS may not work yet (normal)
+
+🚫 Do not change anything while waiting.
+
+---
+
+## 5) HTTPS (SSL) – Automatic
+- Netlify automatically issues a **free SSL certificate**
+- Go to:
+  **Site settings → Domain management → HTTPS**
+- HTTPS is enabled once DNS propagation completes
+
+Access:
+https://md.com
+
+yaml
+코드 복사
+
+---
+
+## 6) Final Check
+
+### Basic access
+- `http://md.com`
+- `https://md.com`
+
+### If www was added
+- `https://www.md.com`
+
+### Content paths
+- `https://md.com/news/`
+- `https://md.com/news/korea-accepts-80000-e9/`
+
+---
+
+## 7) (Recommended) Set Primary Domain
+In **Domain management**:
+- Choose either `md.com` or `www.md.com` as **Primary domain**
+- Enable automatic redirect for the other
+
+Recommended:
+- Primary: `md.com`
+- Redirect: `www.md.com` → `md.com`
+
+---
+
+## 8) Manual A Record / CNAME Method (Not Recommended)
+Only for reference. This method is error-prone.
+
+Typical records:
+A @ 75.2.60.5
+A @ 99.83.190.102
+CNAME www jb-bank-philippines.netlify.app
+
+yaml
+코드 복사
+
+⚠️ Risks:
+- Easy to misconfigure
+- www / non-www conflicts
+- Manual maintenance required
+
+Netlify DNS is strongly preferred.
+
+---
+
+## 9) Common Problems
+
+### Domain does not load
+- DNS propagation still in progress
+- Nameservers not changed (A/CNAME edited instead)
+- Domain added in Netlify but DNS not updated at registrar
+
+### `/news/` shows 404
+- `news/` folder not deployed
+- Wrong publish directory
+
+Check:
+- **Site settings → Build & deploy → Build settings**
+- Publish directory should usually be `.` (root)
+
+---
+
+## 10) Practical Operating Model
+- **SNS**: daily, fast, short posts
+- **Website**: archive important notices and policy updates
+- **/news/**: bulletin-board style index
+- **Domain**: your permanent personal identity anchor
+
+---
