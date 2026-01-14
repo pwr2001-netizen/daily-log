@@ -1,0 +1,154 @@
+# Add One News Link to the Bottom of `index.html` (GitHub → Netlify Auto Update)
+
+Goal: Make **one news link** appear at the **bottom of your main page** (`index.html`).
+Result: After commit, **Netlify auto-deploys** and the link appears on your site.
+
+---
+
+## 0) Before You Start (What You Need)
+- You already have:
+  - A GitHub repository connected to Netlify
+  - A working Netlify URL (site is deployed)
+
+You will edit **one file**:
+- `index.html` (main page)
+
+---
+
+## 1) Open the Repository on GitHub
+1. Go to GitHub and open your repository (example name: `jb-bank-philippines-desk`).
+2. In the file list, click **`index.html`**.
+
+---
+
+## 2) Enter Edit Mode
+1. On the `index.html` page, click the **pencil icon (Edit)**.
+2. You are now editing the file in the browser.
+
+---
+
+## 3) Find the Bottom of the File
+1. Scroll to the very bottom.
+2. Look for these lines near the end:
+
+```html
+</body>
+</html>
+✅ Important rule:
+
+You must paste the new code above </body> (not below it).
+
+4) Paste This News Link Block (Exact Copy/Paste)
+Click your cursor right above this line:
+
+html
+코드 복사
+</body>
+Paste the following block exactly:
+
+html
+코드 복사
+<hr>
+
+<p><strong>Latest News</strong></p>
+
+<p>
+  <a href="/news/korea-accepts-80000-e9/">
+    Korea accepts 80,000 E-9 workers in 2026
+  </a>
+</p>
+5) Save by Committing the Change
+Scroll down to the Commit changes section.
+
+Do NOT change anything unless you want to.
+
+Keep the default commit message (recommended).
+
+Click the green Commit changes button.
+
+✅ At this moment, the change is saved in GitHub.
+
+6) Confirm Netlify Auto Deployment
+Open Netlify dashboard.
+
+Click your site.
+
+Check Deploys tab:
+
+You should see a new deploy triggered by the commit.
+
+Wait until status becomes:
+
+Published
+
+✅ This means your change is live.
+
+7) Verify on the Website
+Open your main page:
+
+https://jb-bank-philippines.netlify.app/ (or your current domain)
+
+Scroll to the bottom.
+
+You should see:
+
+"Latest News"
+
+A clickable link:
+
+"Korea accepts 80,000 E-9 workers in 2026"
+
+Click the link:
+
+It should open:
+
+https:/hwphilippines.netlify.app/news/korea-accepts-80000-e9/
+
+8) If It Does Not Work (Fast Checks)
+A) Link goes to 404 / Not Found
+Confirm the target page exists:
+
+Visit directly:
+
+/news/korea-accepts-80000-e9/
+
+If it does not open, the article folder/page is missing or not deployed.
+
+B) Nothing appears on the main page
+You may have pasted the block:
+
+Below </body> (wrong)
+
+Inside a different section that is hidden
+
+Fix:
+
+Move the pasted block to just above </body>.
+
+C) Netlify does not update
+Check if commit really happened:
+
+GitHub file shows latest update time
+
+Check Netlify deploy:
+
+Deploys tab shows new deploy triggered
+
+9) Add More News Links Later (Same Pattern)
+To add another link, just copy one more <p>...</p> block:
+
+html
+코드 복사
+<p>
+  <a href="/news/ANOTHER-SLUG/">
+    Another news title here
+  </a>
+</p>
+Paste it under the first one, then commit again.
+
+Done ✅
+You now have a simple, stable way to show at least one news link on the main page without building an automated index system.
+
+makefile
+코드 복사
+::contentReference[oaicite:0]{index=0}
