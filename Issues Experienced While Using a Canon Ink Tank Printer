@@ -1,0 +1,22 @@
+## 1. Issues Experienced While Using a Canon Ink Tank Printer
+
+### 2.1 Behavior Changes After Updates
+- Printing results changed even though the configuration remained the same before and after the update
+
+### 2.2 Ink Recognition Issues
+- When the printer entered a warning state, printing itself was restricted
+- No detailed logs or diagnostic information were provided to explain the cause
+
+### 2.3 Limitations in a Linux Environment
+- Official GUI management tools were primarily designed for Windows and macOS
+
+---
+
+## 2. Reasons for Switching to a Brother Ink Tank Printer (Personal User Perspective)
+
+- Ink (or toner) warnings are generally displayed as informational messages
+- Printing is usually still possible even when warning messages are shown
+- Consumable warnings do not immediately lead to output being blocked
+- Firmware updates are optional and not automatically enforced
+- Core printing functionality remains available even without applying updates
+- When settings remain unchanged, printing behavior tends to stay consistent over long periods of time
