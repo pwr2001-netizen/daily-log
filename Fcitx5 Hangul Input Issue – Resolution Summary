@@ -1,0 +1,118 @@
+#  (Linux / X11)
+
+## Problem Overview
+On a Linux system using **X11** and **fcitx5**, Hangul (Korean) input was not working even though:
+- The input method icon showed Korean selected
+- The Hangul/English toggle key worked
+- Environment variables (`XMODIFIERS`, `GTK_IM_MODULE`, `QT_IM_MODULE`) were correctly set
+
+However, **actual Hangul composition did not occur** in any application (including Firefox and ChatGPT).
+
+---
+
+## Key Symptoms
+- Switching input mode worked visually, but typing produced only Latin characters
+- `fcitx5-remote -n` returned:
+keyboard-kr
+
+yaml
+코드 복사
+- This indicated that only a **Korean keyboard layout** was active, **not the Hangul IME engine**
+
+---
+
+## Root Cause (Confirmed)
+> **The Hangul IME engine was not selected as the active input method.**
+
+- `keyboard-kr` = keyboard layout only (no Hangul composition)
+- `Hangul` = actual Hangul input engine (required for Korean syllable composition)
+
+Even though `fcitx5-hangul` was installed, it was **not active**.
+
+---
+
+## Verification Commands
+```bash
+fcitx5-remote -n
+Incorrect state:
+
+코드 복사
+keyboard-kr
+Correct state:
+
+nginx
+코드 복사
+Hangul
+Resolution Steps
+1. Ensure Hangul IME Package Is Installed
+bash
+코드 복사
+sudo apt install fcitx5-hangul
+(Already installed in this case.)
+
+2. Open Fcitx5 Configuration Tool
+bash
+코드 복사
+fcitx5-configtool
+3. Fix Input Method Configuration
+In Input Method tab:
+
+Remove:
+
+Keyboard - Korean
+
+keyboard-kr
+
+Click Add
+
+Search for Hangul or Korean (Hangul)
+
+Add it
+
+Move Hangul to the top of the list
+
+4. Confirm Active Input Method
+bash
+코드 복사
+fcitx5-remote -n
+Expected output:
+
+nginx
+코드 복사
+Hangul
+Result
+Hangul input started working immediately
+
+Korean syllable composition functioned correctly across applications
+
+No browser-, Wayland-, or environment-variable issues remained
+
+The issue resolved once the Hangul IME engine properly attached.
+
+Important Notes
+hangul is not a shell command
+(bash: hangul: command not found is expected and normal)
+
+This was not a browser bug
+
+This was not an X11 or Wayland issue
+
+This was not an environment variable issue
+
+One-Line Summary
+The Hangul IME was installed but not selected; switching from keyboard-kr to Hangul fixed the issue instantly.
+
+Quick Recovery Tip (If It Happens Again)
+bash
+코드 복사
+fcitx5 -r
+Then check:
+
+bash
+코드 복사
+fcitx5-remote -n
+Ensure it says:
+
+nginx
+코드 복사
+Hangul
