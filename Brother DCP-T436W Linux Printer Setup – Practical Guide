@@ -1,0 +1,149 @@
+# Brother DCP-T436W Linux Printer Setup – Practical Guide (Clean Summary)
+
+> **What actually works in real life**  
+> No unnecessary theory / Copy-friendly / Reproducible steps
+
+---
+
+## 1. Final Conclusion (TL;DR)
+
+- This model **should NOT be set up from Linux first**
+- The correct order is:  
+  **Mobile → Printer → Wi-Fi → IP 확인 → Linux**
+- Terminal print tests (`lp`, `echo | lp`) are **unreliable and confusing**
+- **Final print test must be done from a word processor (LibreOffice)**
+- Blank pages are almost always caused by **paper size mismatch**
+
+---
+
+## 2. Why Mobile Setup Is Mandatory
+
+- DCP-T436W uses **analog physical buttons**
+- On the printer itself, you **cannot**:
+  - Check IP address
+  - Confirm network status
+- The printer is practically **headless**
+
+👉 The mobile app acts as the **real setup controller**
+
+---
+
+## 3. Mobile Setup (Required)
+
+### App name
+- **Brother Mobile Connect**  
+  (Google Play Store / Apple App Store)
+
+### Steps on mobile
+1. Install Brother Mobile Connect
+2. Add the printer
+3. Connect the printer to Wi-Fi
+4. Check and note the **printer IP address** in the app
+
+Example:
+192.168.0.33
+
+yaml
+코드 복사
+
+---
+
+## 4. Quick Network Check (Recommended)
+
+Open in a browser:
+http://192.168.0.33
+
+yaml
+코드 복사
+
+- If the Brother web page opens → network is OK
+- If not → Wi-Fi setup is incomplete
+
+---
+
+## 5. Linux Printer Setup (Correct Method)
+
+### Do NOT use
+- USB connection ❌
+- Brother legacy installer ❌
+- Old drivers (brscan4, etc.) ❌
+
+### Use IPP Everywhere (recommended)
+
+```bash
+sudo lpadmin -p Brother_T436W \
+  -E \
+  -v ipp://192.168.0.33/ipp/print \
+  -m everywhere
+Set as default printer:
+
+bash
+코드 복사
+sudo lpoptions -d Brother_T436W
+Verify:
+
+bash
+코드 복사
+lpstat -t
+Expected output:
+
+perl
+코드 복사
+device for Brother_T436W: ipp://192.168.0.33/ipp/print
+6. Scanner (FYI)
+Usually auto-detected:
+
+bash
+코드 복사
+scanimage -L
+airscan / eSCL devices are normal
+
+No manual configuration usually required
+
+7. Print Testing – Reality Check (Important)
+❌ Terminal tests are misleading
+echo "test" | lp
+
+Jobs may queue but never print
+
+Not reliable for real confirmation
+
+✅ Correct test method
+Open LibreOffice Writer / Calc
+
+Print a real document
+
+👉 This is the only reliable confirmation that printing works
+
+8. Blank Page Issue (Very Common)
+Cause
+Document paper size ≠ printer paper size
+
+Happens frequently with B5 paper
+
+Fix (LibreOffice)
+Format → Page Style → Paper
+
+Select B5 (JIS)
+Size: 182 × 257 mm
+
+⚠️ ISO B5 ≠ JIS B5 (must choose JIS)
+
+9. One-Line Workflow Summary
+sql
+코드 복사
+Brother Mobile Connect → Wi-Fi setup
+→ Get printer IP
+→ Add printer via IPP on Linux
+→ Test print from LibreOffice
+→ Match paper size
+10. Key Takeaways
+Mobile app name: Brother Mobile Connect
+
+Linux acts only as an IP client
+
+Terminal print tests are optional and unreliable
+
+Final success check = LibreOffice print
+
+Blank output = almost always paper size mismat
