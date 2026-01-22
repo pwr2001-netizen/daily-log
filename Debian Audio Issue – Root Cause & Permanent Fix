@@ -1,0 +1,91 @@
+# Debian Audio Issue – Root Cause & Permanent Fix (Resolved)
+
+## Summary
+An intermittent audio failure occurred on Debian systems where sound output suddenly stopped working, showing **Dummy Output** or causing **pavucontrol** to hang at  
+> “Connecting to PulseAudio…”
+
+This issue appeared **randomly across reboots**, even though audio worked correctly in previous sessions.
+
+The problem has now been **successfully resolved**.
+
+---
+
+## Symptoms Observed
+- `pavucontrol` stuck on *“Connecting to PulseAudio…”*
+- Output device shows **Dummy Output**
+- `speaker-test` runs but no audible sound
+- ALSA detects the sound card correctly (`aplay -l` OK)
+- Issue disappears and reappears unpredictably after reboot/login
+
+---
+
+## Root Cause (Confirmed)
+The issue was caused by a **conflict and race condition between PulseAudio remnants and PipeWire-Pulse**, combined with PipeWire’s **socket-based auto-activation** behavior.
+
+Key factors:
+- Residual PulseAudio services conflicting with `pipewire-pulse`
+- PipeWire starting too late or failing to bind ALSA devices
+- HDMI probing failures breaking fallback to analog output
+- Session timing differences causing random success/failure
+
+This is a **known structural issue** in Debian + PipeWire setups, not a hardware fault.
+
+---
+
+## Final Resolution Strategy
+**Replace all PulseAudio components and force PipeWire to run persistently with a stable startup order.**
+
+Core principles:
+- PulseAudio must be **completely removed**
+- PipeWire must be the **only audio server**
+- Disable socket-only activation
+- Ensure PipeWire starts **before applications request audio**
+
+---
+
+## Permanent Fix (Applied)
+
+### 1. Remove PulseAudio Completely
+```bash
+systemctl --user stop pulseaudio pulseaudio.socket 2>/dev/null || true
+systemctl --user disable pulseaudio pulseaudio.socket 2>/dev/null || true
+sudo apt purge -y pulseaudio pulseaudio-utils
+sudo apt autoremove -y
+2. Reinstall PipeWire Stack Cleanly
+bash
+코드 복사
+sudo apt install -y pipewire pipewire-audio pipewire-pulse wireplumber alsa-utils pavucontrol
+3. Force PipeWire to Always Run (Disable Socket Activation)
+bash
+코드 복사
+systemctl --user enable pipewire pipewire-pulse wireplumber --now
+systemctl --user mask pipewire.socket pipewire-pulse.socket
+4. Add Safe WirePlumber Configuration (Prevents HDMI Failure Cascade)
+bash
+코드 복사
+mkdir -p ~/.config/wireplumber/main.lua.d
+cat > ~/.config/wireplumber/main.lua.d/10-safe-audio.lua << 'EOF'
+alsa_monitor.properties = {
+  ["alsa.disable-batch"] = true,
+}
+EOF
+5. Restart User Audio Services
+bash
+코드 복사
+systemctl --user daemon-reexec
+systemctl --user restart pipewire pipewire-pulse wireplumber
+6. Log Out and Log Back In
+(Reboot also works, but logout/login is sufficient)
+
+Verification
+After applying the fix:
+
+pavucontrol opens instantly
+
+No “Connecting to PulseAudio…” message
+
+No Dummy Output
+
+Analog audio device appears consistently
+
+Audio works reliably across reboots
