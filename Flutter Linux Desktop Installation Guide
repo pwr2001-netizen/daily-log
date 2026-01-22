@@ -1,0 +1,121 @@
+# Flutter Linux Desktop Installation Guide
+
+This document explains how to install **Flutter** and enable **Linux desktop app development** on Debian/Ubuntu-based systems.
+
+---
+
+## 1. Prerequisites
+
+- OS: Debian / Ubuntu / Linux Mint (64-bit)
+- Shell: bash
+- Internet connection
+- Git installed
+
+```bash
+sudo apt update
+sudo apt install -y git curl
+2. Download Flutter SDK
+Move to your home directory and clone the Flutter SDK (stable channel).
+
+bash
+코드 복사
+cd ~
+git clone https://github.com/flutter/flutter.git -b stable
+Flutter will be installed at:
+
+bash
+코드 복사
+~/flutter
+3. Add Flutter to PATH
+Add Flutter to your PATH so the flutter command works globally.
+
+bash
+코드 복사
+echo 'export PATH="$PATH:$HOME/flutter/bin"' >> ~/.bashrc
+source ~/.bashrc
+Verify installation:
+
+bash
+코드 복사
+flutter --version
+Expected output example:
+
+nginx
+코드 복사
+Flutter 3.x.x • channel stable • https://github.com/flutter/flutter.git
+4. Install Linux Desktop Dependencies
+Install required packages for building Flutter Linux desktop apps.
+
+bash
+코드 복사
+sudo apt update
+sudo apt install -y \
+  clang cmake ninja-build pkg-config \
+  libgtk-3-dev liblzma-dev
+5. Run Flutter Diagnostics
+Check Flutter environment status.
+
+bash
+코드 복사
+flutter doctor
+Follow any instructions shown if issues are reported.
+
+6. Enable Linux Desktop Support
+Enable Linux desktop development explicitly.
+
+bash
+코드 복사
+flutter config --enable-linux-desktop
+Run detailed diagnostics:
+
+bash
+코드 복사
+flutter doctor -v
+Expected status:
+
+css
+코드 복사
+[✓] Flutter
+[✓] Linux toolchain - develop for Linux desktop
+7. Run Demo App (Installation Test)
+Create and run a demo Flutter desktop application.
+
+bash
+코드 복사
+flutter create flutter_demo
+cd flutter_demo
+flutter run -d linux
+Expected result:
+
+A GUI window opens
+
+A counter with a "+" button is displayed
+
+Clicking the button increases the number
+
+8. Verify Linux Device Detection
+bash
+코드 복사
+flutter devices
+Expected output:
+
+scss
+코드 복사
+Linux (desktop) • linux • linux-x64 • Linux
+9. Troubleshooting
+flutter: command not found
+Ensure PATH is correctly set in ~/.bashrc
+
+Run source ~/.bashrc again
+
+Linux toolchain errors
+Confirm libgtk-3-dev is installed
+
+Re-run flutter doctor
+
+10. Next Steps
+Build Flutter-based Linux GUI applications
+
+Wrap existing Python or C tools with Flutter UI
+
+Package apps as .deb files for distribution
