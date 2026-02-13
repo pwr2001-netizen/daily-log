@@ -1,0 +1,119 @@
+# VirtualBox + Linux Mint Auto-Resize Display Fix Guide
+
+## Problem
+
+After installing Guest Additions in Linux Mint running inside VirtualBox:
+
+- Screen resolution does not auto-adjust  
+- Display settings show “Unknown”  
+- Window resizing does not change resolution  
+- Wayland session may be active  
+
+---
+
+## Final Working Configuration
+
+The following setup resolves the issue:
+
+### VirtualBox VM Settings
+
+Go to:
+
+**Settings → Display → Screen**
+
+Set:
+
+- Graphics Controller → `VBoxSVGA`
+- Video Memory → `128 MB`
+- Enable 3D Acceleration → Disabled
+
+---
+
+## Install Guest Additions Properly
+
+Inside the running VM:
+
+1. Click:  
+   `Devices → Insert Guest Additions CD Image`
+
+2. Open terminal and run:
+
+```bash
+sudo apt update
+sudo apt install build-essential dkms linux-headers-$(uname -r)
+
+cd /media/$USER/VBox_GAs_*
+sudo ./VBoxLinuxAdditions.run
+sudo reboot
+```
+
+---
+
+## Ensure X11 Session (Not Wayland)
+
+After reboot, check session type:
+
+```bash
+echo $XDG_SESSION_TYPE
+```
+
+Expected output:
+
+```
+x11
+```
+
+If it shows `wayland`, auto-resize may not function correctly.
+
+---
+
+## Enable Auto-Resize in VirtualBox
+
+In the VM menu:
+
+```
+View → Auto-resize Guest Display
+```
+
+Make sure it is enabled.
+
+---
+
+## Optional: Manually Start Display Service
+
+If needed:
+
+```bash
+VBoxClient --display &
+```
+
+Then resize the VM window to test.
+
+---
+
+## Why This Works
+
+- Newer Linux Mint kernels may bind `vmwgfx` driver when using `VMSVGA`
+- Cinnamon may fail to properly detect display, resulting in “Unknown Display”
+- Using `VBoxSVGA` ensures `vboxvideo` driver is used
+- X11 session allows proper display resizing integration
+- 3D acceleration may interfere with VirtualBox display handling
+
+---
+
+## Confirmed Working Setup
+
+```
+Graphics Controller: VBoxSVGA
+Video Memory: 128MB
+3D Acceleration: Disabled
+Guest Additions: Installed
+Session Type: X11
+Auto-Resize: Enabled
+```
+
+This configuration provides stable automatic display resizing in VirtualBox 7.2.x with Linux Mint.
+
+---
+
+End of Guide.
